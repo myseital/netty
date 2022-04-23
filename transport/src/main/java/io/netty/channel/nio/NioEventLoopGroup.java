@@ -70,6 +70,8 @@ public class NioEventLoopGroup extends MultithreadEventLoopGroup {
     }
 
     public NioEventLoopGroup(int nThreads, Executor executor) {
+        // ServerSocketChannel
+        // 就是通过ServerSocketChannel.open() ==> SelectorProvider.provider().openServerSocketChannel()创建的
         this(nThreads, executor, SelectorProvider.provider());
     }
 
@@ -89,11 +91,16 @@ public class NioEventLoopGroup extends MultithreadEventLoopGroup {
 
     public NioEventLoopGroup(
             int nThreads, Executor executor, final SelectorProvider selectorProvider) {
+        // 默认选择策略工厂
+        // DefaultSelectStrategyFactory.INSTANCE ==> new DefaultSelectStrategyFactory()
         this(nThreads, executor, selectorProvider, DefaultSelectStrategyFactory.INSTANCE);
     }
 
     public NioEventLoopGroup(int nThreads, Executor executor, final SelectorProvider selectorProvider,
                              final SelectStrategyFactory selectStrategyFactory) {
+        // 线程池的拒绝策略，是指当任务添加到线程池中被拒绝，而采取的处理措施。
+        // 当任务添加到线程池中之所以被拒绝，可能是由于：第一，线程池异常关闭。第二，任务数量超过线程池的最大限制。
+        // RejectedExecutionHandlers.reject() ===》 new RejectedExecutionHandler() ===>丢弃任务并抛出RejectedExecutionException异常。
         super(nThreads, executor, selectorProvider, selectStrategyFactory, RejectedExecutionHandlers.reject());
     }
 

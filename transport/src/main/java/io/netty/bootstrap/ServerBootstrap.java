@@ -131,7 +131,7 @@ public class ServerBootstrap extends AbstractBootstrap<ServerBootstrap, ServerCh
     void init(Channel channel) {
         setChannelOptions(channel, newOptionsArray(), logger);
         setAttributes(channel, newAttributesArray());
-
+        // 配置服务端pipeline
         ChannelPipeline p = channel.pipeline();
 
         final EventLoopGroup currentChildGroup = childGroup;

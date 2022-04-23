@@ -126,12 +126,14 @@ public abstract class ChannelInitializer<C extends Channel> extends ChannelInbou
     private boolean initChannel(ChannelHandlerContext ctx) throws Exception {
         if (initMap.add(ctx)) { // Guard against re-entrance.
             try {
+                // ServerBootstrap.addLast(ChannelInitializer) 在此处执行
                 initChannel((C) ctx.channel());
             } catch (Throwable cause) {
                 // Explicitly call exceptionCaught(...) as we removed the handler before calling initChannel(...).
                 // We do so to prevent multiple calls to initChannel(...).
                 exceptionCaught(ctx, cause);
             } finally {
+                // 删除节点 ChannelInitializer
                 if (!ctx.isRemoved()) {
                     ctx.pipeline().remove(this);
                 }

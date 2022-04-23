@@ -264,6 +264,7 @@ public abstract class AbstractBootstrap<B extends AbstractBootstrap<B, C>, C ext
      * Create a new {@link Channel} and bind it.
      */
     public ChannelFuture bind(SocketAddress localAddress) {
+        // 参数非空校验
         validate();
         return doBind(ObjectUtil.checkNotNull(localAddress, "localAddress"));
     }
@@ -307,6 +308,8 @@ public abstract class AbstractBootstrap<B extends AbstractBootstrap<B, C>, C ext
     final ChannelFuture initAndRegister() {
         Channel channel = null;
         try {
+            //channelFactory对应的是ReflectiveChannelFactory 对应channel传入封装
+            // 通过class的构造方法反射获取
             channel = channelFactory.newChannel();
             init(channel);
         } catch (Throwable t) {

@@ -206,7 +206,9 @@ abstract class AbstractChannelHandlerContext implements ChannelHandlerContext, R
 
     @Override
     public ChannelHandlerContext fireChannelActive() {
-        invokeChannelActive(findContextInbound(MASK_CHANNEL_ACTIVE));
+        // 查找下一个ContextInbound
+        AbstractChannelHandlerContext contextInbound = findContextInbound(MASK_CHANNEL_ACTIVE);
+        invokeChannelActive(contextInbound);
         return this;
     }
 
@@ -485,6 +487,7 @@ abstract class AbstractChannelHandlerContext implements ChannelHandlerContext, R
             return promise;
         }
 
+        // head-->NettyTestHendler-->ServerBootstrapAcceptor-->tail outbound的话就是head
         final AbstractChannelHandlerContext next = findContextOutbound(MASK_BIND);
         EventExecutor executor = next.executor();
         if (executor.inEventLoop()) {

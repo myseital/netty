@@ -36,12 +36,12 @@ public class NettyServer {
                 .childOption(ChannelOption.SO_KEEPALIVE, true)
                 //表示服务器启动过程中，需要经过哪些流程，这里NettyTestHendler最终的顶层接口为ChannelHander，
                 // 是netty的一大核心概念，表示数据流经过的处理器
-                .handler(new com.mao.netty.demo.NettyTestHendler())
+                .handler(new NettyTestHendler())
                 //表示一条新的连接进来之后，该怎么处理，也就是上面所说的，老板如何给工人配活
                 .childHandler(new ChannelInitializer<NioSocketChannel>() {
                     @Override
                     protected void initChannel(NioSocketChannel nioSocketChannel) throws Exception {
-                        nioSocketChannel.pipeline().addLast(new StringDecoder(), new com.mao.netty.demo.NettyServerHendler());
+                        nioSocketChannel.pipeline().addLast(new StringDecoder(), new NettyServerHendler());
                     }
                 });
         System.out.println(".........server  init..........");

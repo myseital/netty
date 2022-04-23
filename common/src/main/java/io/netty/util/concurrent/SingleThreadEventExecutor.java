@@ -822,6 +822,7 @@ public abstract class SingleThreadEventExecutor extends AbstractScheduledEventEx
 
     private void execute(Runnable task, boolean immediate) {
         boolean inEventLoop = inEventLoop();
+        // 添加任务到线程队列
         addTask(task);
         if (!inEventLoop) {
             startThread();
@@ -972,6 +973,7 @@ public abstract class SingleThreadEventExecutor extends AbstractScheduledEventEx
 
     private void doStartThread() {
         assert thread == null;
+        // 启动线程
         executor.execute(new Runnable() {
             @Override
             public void run() {

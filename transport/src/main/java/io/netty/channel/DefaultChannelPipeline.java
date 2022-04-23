@@ -604,7 +604,7 @@ public class DefaultChannelPipeline implements ChannelPipeline {
         }
     }
 
-    private void callHandlerAdded0(final AbstractChannelHandlerContext ctx) {
+    private void  callHandlerAdded0(final AbstractChannelHandlerContext ctx) {
         try {
             ctx.callHandlerAdded();
         } catch (Throwable t) {
@@ -1396,7 +1396,7 @@ public class DefaultChannelPipeline implements ChannelPipeline {
         @Override
         public void channelActive(ChannelHandlerContext ctx) {
             ctx.fireChannelActive();
-
+            // ChannelPipeline tail开始读 向下传递执行
             readIfIsAutoRead();
         }
 
